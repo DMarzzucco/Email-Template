@@ -4,21 +4,54 @@ const cors = require('cors');
 const app = express();
 const port = 3001;
 
+interface Message{
+  id:number;
+  text:string;
+}
+
 app.use(cors());
 app.use(express.json());
 
-let messages = [];
+let Messages: string [] = [];
 
 app.get('/messages', (req, res) => {
   res.json(messages);
 });
 
 app.post('/messages', (req, res) => {
-  const message = req.body.message;
+  const message.Message = req.body.message;
   messages.push(message);
   res.status(201).send('Message added');
 });
+-- //
+app.post('/message', (req:Request, res:Respones) =>{
+  const message:Message = req.body.message;
+  try{
+    if (typeof message === 'string'){
+      Messages.push(message);
+      res.status(201).send('Message Aded');
+      console.log(message);
+    } else{
+      throw new Error ('invalid format')
+    }
+  }catch (error){
+    res.status(400).send(error instanceof Error ? error.message: 'Uknown Error');
+    return;
+  }
+})
+app.delete('/message/:index', (req:Request, res:Respones) =>{
+  const index:number = parseInt (req.params.index, 10);
+  try{
+    if(isNaN(index) || index <0 || indez >= Message.length){
+      return res.status(401).send ('Message not Found');
+    }
+      Messages.splice(index, 1);
+      console.log(delete)
+      return res.status(200).send('Message was delete');
 
+  }
+})
+-- 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
